@@ -11,13 +11,17 @@ import java.io.IOException;
 
 public class HttpServer {
 
+    private static SlowMusicRepository repository;
+
     private static int serverPort;
 
-    public HttpServer() {
+    public HttpServer(SlowMusicRepository repository) {
+        this.repository = repository;
         this.serverPort = 8080;
     }
 
-    public HttpServer(int port) {
+    public HttpServer(SlowMusicRepository repository, int port) {
+        this.repository = repository;
         this.serverPort = port;
     }
 
@@ -34,7 +38,12 @@ public class HttpServer {
         httpServer.setHandler(new AbstractHandler() {
             public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
                 if("GET".equals(baseRequest.getMethod()) && "/music".equals(request.getRequestURI())) {
+
+                    String songTitle = processRequest(baseRequest.getParameterValues("artist")[0]);
+
+                    response.getOutputStream().print(songTitle);
                     response.setStatus(200);
+
                     baseRequest.setHandled(true);
                 } else {
                     response.setStatus(404);
@@ -54,5 +63,9 @@ public class HttpServer {
                 System.out.println("CAN'T STOP, WON'T STOP");
             }
         }));
+    }
+
+    private static String processRequest(String artist) {
+        return repository.find(artist);
     }
 }

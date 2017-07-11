@@ -1,0 +1,22 @@
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.5
+
+repositories {
+    mavenCentral()
+    maven {
+        credentials {
+            username "$gemfireReleaseRepoUser"
+            password "$gemfireReleaseRepoPassword"
+        }
+        url "https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire"
+    }
+}
+
+dependencies {
+    compile group: 'io.pivotal.gemfire', name: 'geode-core', version: '9.0.4'
+    compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.3.0.M2'
+    testCompile 'junit:junit:4.12'
+}

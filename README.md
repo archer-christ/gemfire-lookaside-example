@@ -32,3 +32,21 @@ These steps are provided in order to run Gemfire and this example on your local 
 ```
     ./gradlew build
 ```
+
+5. Start the locator and server(s) via
+
+```
+    gfsh run --file=scripts/start.gfsh
+```
+
+6. Start the example Java app via
+
+```
+    ./gradlew run
+```
+
+7. Shut down the locator and server(s) via
+
+```
+    gfsh run --file=scripts/stop.gfsh
+```

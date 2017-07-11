@@ -21,3 +21,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.8.9'
 }
+
+task run(type: JavaExec, dependsOn: build) {
+    description = 'Run Gemfire lookaside cache example'
+    classpath = sourceSets.main.runtimeClasspath
+    main = "gs.gemfire.lookaside.example.App"
+}

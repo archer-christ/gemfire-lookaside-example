@@ -3,7 +3,7 @@
 ## Getting started ##
 
 ```
-    git clone
+    git clone https://github.com/gshaw-pivotal/gemfire-lookaside-example.git
 ```
 
 ## Steps to run example ##

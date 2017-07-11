@@ -1,5 +1,6 @@
 package gs.gemfire.lookaside.example;
 
+import org.apache.geode.cache.Region;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
@@ -11,7 +12,13 @@ import java.io.IOException;
 
 public class HttpServer {
 
+    private static CacheManager cacheManager;
+
+    private static Region region;
+
     private static SlowMusicRepository repository;
+
+    private static String regionName = "music";
 
     private static int serverPort;
 
@@ -26,6 +33,8 @@ public class HttpServer {
     }
 
     public static Server setupServer() {
+        cacheManager = new CacheManager();
+        region = cacheManager.createCache(regionName);
         Server httpServer = new Server(serverPort);
 
         addHandler(httpServer);
@@ -60,6 +69,7 @@ public class HttpServer {
     private static void addShutdownHook(Server httpServer) {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
+                cacheManager.close();
                 if (httpServer.isRunning()) {
                     httpServer.stop();
                 }

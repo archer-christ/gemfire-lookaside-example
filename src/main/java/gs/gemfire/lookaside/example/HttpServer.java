@@ -39,10 +39,14 @@ public class HttpServer {
             public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
                 if("GET".equals(baseRequest.getMethod()) && "/music".equals(request.getRequestURI())) {
 
-                    String songTitle = processRequest(baseRequest.getParameterValues("artist")[0]);
+                    if (baseRequest.getParameter("artist") != null) {
+                        String songTitle = processRequest(baseRequest.getParameterValues("artist")[0]);
 
-                    response.getOutputStream().print(songTitle);
-                    response.setStatus(200);
+                        response.getOutputStream().print(songTitle);
+                        response.setStatus(200);
+                    } else {
+                        response.setStatus(400);
+                    }
 
                     baseRequest.setHandled(true);
                 } else {

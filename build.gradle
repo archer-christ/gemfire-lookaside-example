@@ -19,4 +19,5 @@ dependencies {
     compile group: 'io.pivotal.gemfire', name: 'geode-core', version: '9.0.4'
     compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.3.0.M2'
     testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.8.9'
 }

@@ -1,0 +1,10 @@
+.idea/
+.gradle/
+.settings/
+
+*.iml
+
+server*/*
+locator*/*
+
+build/

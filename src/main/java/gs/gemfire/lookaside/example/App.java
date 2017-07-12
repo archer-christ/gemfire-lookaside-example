@@ -8,12 +8,19 @@ public class App {
 
     private static SlowMusicRepository repository;
 
+    private static GemfireCacheManager cacheManager;
+
     public static void main(String[] args) throws Exception {
         seedRepository();
+        initCacheManager();
 
-        httpServer = new HttpServer(repository).setupServer();
+        httpServer = new HttpServer(cacheManager, repository).setupServer();
 
         httpServer.start();
+    }
+
+    private static void initCacheManager() {
+        cacheManager = new GemfireCacheManager();
     }
 
     private static void seedRepository() {

@@ -13,8 +13,7 @@ import java.net.URL;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class HttpServerTest {
 
@@ -22,11 +21,14 @@ public class HttpServerTest {
 
     private Server server;
 
+    private StubCacheManager cacheManager;
+
     private SlowMusicRepository repository = mock(SlowMusicRepository.class);
 
     @Before
     public void setup() throws Exception {
-        server = new HttpServer(repository).setupServer();
+        cacheManager = new StubCacheManager();
+        server = new HttpServer(cacheManager, repository).setupServer();
         server.start();
     }
 

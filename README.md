@@ -45,8 +45,21 @@ These steps are provided in order to run Gemfire and this example on your local 
     ./gradlew run
 ```
 
-7. Shut down the locator and server(s) via
+7. Make HTTP GET requests to the application; for example using curl you can do the following
+
+```
+    curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/music?artist=insertArtistName
+```
+
+- Artist names are case sensitive and must match exactly in order to be found in the cache and/or repository. By default our example populates the repository with the following:
+    - Bach
+    - Mozart
+    - Beethoven
+
+8. Shut down the locator and server(s) via
 
 ```
     gfsh run --file=scripts/stop.gfsh
 ```
+
+- It is important to run the stop script when finished, otherwise there can be issues if the start script is run consecutively.

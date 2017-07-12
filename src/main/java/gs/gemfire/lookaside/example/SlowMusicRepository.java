@@ -20,6 +20,11 @@ public class SlowMusicRepository {
     }
 
     public String find(String artist) {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return records.get(artist);
     }
 }

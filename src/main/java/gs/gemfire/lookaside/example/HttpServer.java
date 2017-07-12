@@ -46,10 +46,9 @@ public class HttpServer {
             public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
                 if("GET".equals(baseRequest.getMethod()) && "/music".equals(request.getRequestURI())) {
 
-                    if (baseRequest.getParameter("artist") != null) {
-                        String songTitle = processRequest(baseRequest.getParameterValues("artist")[0]);
-
-                        response.getOutputStream().print(songTitle);
+                    String artist = getParameterValue(baseRequest, "artist");
+                    if (artist != null) {
+                        response.getOutputStream().print(processRequest(artist));
                         response.setStatus(200);
                     } else {
                         response.setStatus(400);
@@ -77,7 +76,31 @@ public class HttpServer {
         }));
     }
 
+    private static String getParameterValue(Request request, String parameter) {
+        if (request.getParameterValues(parameter) != null) {
+            return request.getParameterValues(parameter)[0];
+        }
+        return null;
+    }
+
     private static String processRequest(String artist) {
+        String songTitle = cacheManager.getFromRegion(artist);
+
+        if (songTitle == null) {
+            songTitle = getFromRepo(artist);
+
+            if (songTitle != null) {
+                cacheManager.putIntoRegion(artist, songTitle);
+                return songTitle;
+            } else {
+                return "";
+            }
+        }
+
+        return songTitle;
+    }
+
+    private static String getFromRepo(String artist) {
         return repository.find(artist);
     }
 }
